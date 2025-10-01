@@ -1,5 +1,8 @@
 import os
 import openai
+from dotenv import load_dotenv
+
+load_dotenv()
 
 """
 Before submitting the assignment, describe here in a few sentences what you would have built next if you spent 2 more hours on this project:
@@ -7,7 +10,10 @@ Before submitting the assignment, describe here in a few sentences what you woul
 """
 
 def call_model(prompt: str, max_tokens=3000, temperature=0.1) -> str:
-    openai.api_key = os.getenv("OPENAI_API_KEY") # please use your own openai api key here.
+    openai.api_key = os.getenv("OPENAI_API_KEY") 
+    if not openai.api_key:
+        raise ValueError("OPENAI_API_KEY not found. Make sure it is set in your .env file.")
+        
     resp = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
