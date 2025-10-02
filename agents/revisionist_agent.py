@@ -8,9 +8,9 @@ class RevisionistAgent:
     def __init__(self, client: LanguageModelClient):
         self.client = client
 
-    def run(self, story_draft: str, feedback: dict):
+    def run(self, story_draft: str, feedback: dict) -> str: # <--- Added type hint for clarity
         """
-        Streams the final, revised story to the console.
+        Streams the final, revised story to the console and returns the string.
         """
         suggestions = "\n- ".join(feedback.get('suggestions_for_improvement', []))
         
@@ -19,7 +19,8 @@ class RevisionistAgent:
             print("No improvement suggestions received. Presenting original draft.")
             # Use the new function for printing a plain string
             type_story_string(story_draft)
-            return
+            return story_draft # <--- FIXED: Return the draft here
+            # The original code implicitly returned None here.
 
         prompt = REVISIONIST_PROMPT.format(
             story_draft=story_draft,
@@ -29,7 +30,8 @@ class RevisionistAgent:
         # This is the normal streaming case
         story_stream = self.client.stream_call(prompt, temperature=0.7)
         # Use the function designed for handling streams
-        stream_story(story_stream)
+        final_story = stream_story(story_stream) # <--- Assign the returned string
+        return final_story # <--- FIXED: Explicitly return the final story
     
     def revise_with_user_feedback(self, current_story: str, user_feedback: str) -> str:
         """Revises a story based on direct user feedback and returns the new version."""
@@ -37,7 +39,8 @@ class RevisionistAgent:
             current_story=current_story,
             user_feedback=user_feedback
         )
-        story_stream = self.client.stream_call(prompt, temperature=0.7)
-        revised_story = stream_story(story_stream)
+        # Use non-streaming call with moderate temperature for better control
+        revised_story = self.client.call(prompt, temperature=0.4)
+        # Display the revised story with typing effect
+        type_story_string(revised_story)
         return revised_story
-

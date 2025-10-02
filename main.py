@@ -43,7 +43,7 @@ def main():
 
     # --- 3. User Feedback Loop ---
     while True:
-        prompt_text = "\nWhat do you think? Are you happy with the story, or would you like to make any changes?\n(e.g., 'make the squirrel brave' or type 'exit' to finish)\n> "
+        prompt_text = "\nWhat do you think? Are you happy with the story, or would you like to make any changes?\n(e.g., 'make the story shorter' or type 'exit' to finish)\n> "
         user_feedback = input(prompt_text)
 
         if user_feedback.lower() in ['exit', 'quit', 'done', 'yes', 'i am happy']:
@@ -51,8 +51,16 @@ def main():
             break
 
         narrate("Revising the story based on your feedback")
+        
+        # --- ADDED: Print a separator/header before the revised story is streamed ---
+        print("\n\n--- REVISED STORY ---\n") 
+        
         # The story is updated with each revision
+        # The revisionist agent streams the new story to the console and returns the string
         current_story = revisionist.revise_with_user_feedback(current_story, user_feedback)
+        
+        # --- ADDED: Print a separator/footer after the revised story is streamed ---
+        print("---------------------\n") 
 
 if __name__ == "__main__":
     main()

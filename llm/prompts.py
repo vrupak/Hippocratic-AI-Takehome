@@ -70,15 +70,21 @@ Theme: {theme}
 
 # 6. User Feedback Revisionist Prompt
 USER_FEEDBACK_PROMPT = """
-You are a master storyteller revising a story based on the reader's direct feedback.
-Your task is to seamlessly rewrite the story to incorporate the requested changes while maintaining a consistent, child-friendly tone.
-The final story should be polished, complete, and ready for a child to read.
+IMPORTANT: You must work with the EXISTING story provided below. Do NOT create a new story from scratch.
 
-Current Story:
+You are revising the current story by making ONLY the specific changes requested. You must keep (unless requested otherwise):
+- The same characters and their names
+- The same setting and location  
+- The same plot and events
+- The same overall story structure
+
+ONLY modify what is specifically requested in the feedback. Everything else must remain exactly the same.
+
+Current Story to Revise:
 "{current_story}"
 
-Reader's Requested Changes:
+Requested Changes:
 "{user_feedback}"
 
-Now, provide the final, revised story incorporating these changes.
+Now, provide the SAME story with ONLY the requested changes applied. Do not create new characters, settings, or plots.
 """
