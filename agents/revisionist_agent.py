@@ -14,24 +14,19 @@ class RevisionistAgent:
         """
         suggestions = "\n- ".join(feedback.get('suggestions_for_improvement', []))
         
-        # This is the fallback case
         if not suggestions:
             print("No improvement suggestions received. Presenting original draft.")
-            # Use the new function for printing a plain string
             type_story_string(story_draft)
-            return story_draft # <--- FIXED: Return the draft here
-            # The original code implicitly returned None here.
+            return story_draft
 
         prompt = REVISIONIST_PROMPT.format(
             story_draft=story_draft,
             feedback=suggestions
         )
         
-        # This is the normal streaming case
         story_stream = self.client.stream_call(prompt, temperature=0.7)
-        # Use the function designed for handling streams
-        final_story = stream_story(story_stream) # <--- Assign the returned string
-        return final_story # <--- FIXED: Explicitly return the final story
+        final_story = stream_story(story_stream)
+        return final_story
     
     def revise_with_user_feedback(self, current_story: str, user_feedback: str) -> str:
         """Revises a story based on direct user feedback and returns the new version."""
@@ -39,8 +34,6 @@ class RevisionistAgent:
             current_story=current_story,
             user_feedback=user_feedback
         )
-        # Use non-streaming call with moderate temperature for better control
         revised_story = self.client.call(prompt, temperature=0.4)
-        # Display the revised story with typing effect
         type_story_string(revised_story)
         return revised_story

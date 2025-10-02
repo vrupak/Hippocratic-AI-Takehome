@@ -16,7 +16,6 @@ class ClassifierAgent:
         response_text = self.client.call(prompt, temperature=0.1)
 
         try:
-            # The LLM is instructed to return JSON, so we parse it.
             return json.loads(response_text)
         except json.JSONDecodeError:
             print("Classifier agent failed to return valid JSON. Returning default values.")

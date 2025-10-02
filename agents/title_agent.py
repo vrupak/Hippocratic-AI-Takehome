@@ -26,8 +26,6 @@ class TitleAgent:
             theme=story_attributes.get('theme', 'overcoming challenges')
         )
         
-        # Use a slightly higher temperature for creative titles
         title = self.client.call(prompt, temperature=0.6, max_tokens=30)
         
-        # Clean up the title by removing quotes and extra whitespace
         return title.strip().replace('"', '')

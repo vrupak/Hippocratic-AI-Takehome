@@ -9,6 +9,9 @@ from ui.printer import narrate, print_title
 """
 Before submitting the assignment, describe here in a few sentences what you would have built next if you spent 2 more hours on this project:
 
+- one major feature I wanted to implement was ASCII art generation based on the storys theme. By extracting a key element from the story, I could generate ASCII art reflecting that theme. However, because I only had access to the gpt-3.5-turbo model (which performs poorly at ASCII art), I wasnt able to implement this.
+
+- I would also add a “moral of the story” component, introduce a few new vocabulary words in each story to support learning, and build a clean UI for the story-generation pipeline.
 """
 
 def main():
@@ -21,7 +24,7 @@ def main():
     revisionist = RevisionistAgent(client)
     title_agent = TitleAgent(client)
 
-    # --- 2. User Input & Initial Generation (Happens Once) ---
+    # --- 2. User Input & Initial Generation ---
     user_request = input("What kind of story would you like to hear? ")
     
     narrate("Analyzing your request and brainstorming some ideas")
@@ -37,7 +40,6 @@ def main():
     feedback = judge.run(story_draft)
     
     narrate("Polishing the final version based on the editor's notes")
-    # This is the first, complete version of the story
     print_title(story_title)
     current_story = revisionist.run(story_draft, feedback)
 
@@ -52,14 +54,12 @@ def main():
 
         narrate("Revising the story based on your feedback")
         
-        # --- ADDED: Print a separator/header before the revised story is streamed ---
         print("\n\n--- REVISED STORY ---\n") 
         
         # The story is updated with each revision
         # The revisionist agent streams the new story to the console and returns the string
         current_story = revisionist.revise_with_user_feedback(current_story, user_feedback)
         
-        # --- ADDED: Print a separator/footer after the revised story is streamed ---
         print("---------------------\n") 
 
 if __name__ == "__main__":

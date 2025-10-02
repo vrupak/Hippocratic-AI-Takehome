@@ -21,7 +21,6 @@ def print_title(title: str):
         print(ascii_title)
         print("="*70 + "\n")
     except Exception:
-        # Fallback in case pyfiglet fails or font is not found
         print(f"\n*** {title} ***\n")
 
 def type_story_string(story: str):
@@ -39,7 +38,6 @@ def stream_story(story_stream):
     """
     full_response = ""
     for chunk in story_stream:
-        # Safely check if the chunk has the content we expect
         if chunk.choices and chunk.choices[0].delta and chunk.choices[0].delta.content:
             content = chunk.choices[0].delta.content
             full_response += content
