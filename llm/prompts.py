@@ -67,3 +67,18 @@ Genre: {genre}
 Characters: {characters}
 Theme: {theme}
 """
+
+# 6. User Feedback Revisionist Prompt
+USER_FEEDBACK_PROMPT = """
+You are a master storyteller revising a story based on the reader's direct feedback.
+Your task is to seamlessly rewrite the story to incorporate the requested changes while maintaining a consistent, child-friendly tone.
+The final story should be polished, complete, and ready for a child to read.
+
+Current Story:
+"{current_story}"
+
+Reader's Requested Changes:
+"{user_feedback}"
+
+Now, provide the final, revised story incorporating these changes.
+"""
